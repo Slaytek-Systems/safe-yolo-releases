@@ -19,6 +19,7 @@ jobs:
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: '3.12'
+      - run: python3 -m unittest test_publish.py
       - run: python3 verify.py
   publish:
     needs: verify
@@ -29,17 +30,8 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
-      - id: metadata
-        run: python3 verify.py --metadata-only
       - name: Publish checked artifacts
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-          RELEASE_TAG: ${{ steps.metadata.outputs.tag }}
-          RELEASE_ARCHIVE: ${{ steps.metadata.outputs.archive }}
-          RELEASE_COMMIT: ${{ github.sha }}
-        run: >-
-          gh release create "$RELEASE_TAG"
-          "dist/$RELEASE_ARCHIVE" "dist/$RELEASE_ARCHIVE.sha256"
-          --target "$RELEASE_COMMIT" --prerelease
-          --title "Safe YOLO $RELEASE_TAG" --notes-file RELEASE.md
+        run: python3 publish.py

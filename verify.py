@@ -91,9 +91,5 @@ def acceptance(archive: Path) -> None:
 
 if __name__ == '__main__':
     archive, version = verify()
-    if '--metadata-only' in sys.argv:
-        with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
-            output.write(f'tag=v{version}\narchive={archive.name}\n')
-    else:
-        acceptance(archive)
-        print(f'PROVEN: {version} archive integrity, three-harness install, global doctor, update, uninstall')
+    acceptance(archive)
+    print(f'PROVEN: {version} archive integrity, three-harness install, global doctor, same-version update, uninstall')

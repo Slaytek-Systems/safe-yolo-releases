@@ -12,14 +12,18 @@ the installer, guide, release verification workflow, and distributable artifacts
 4. Run `python3 verify.py`. Review and commit the metadata, scripts, guide,
    permission notice, and ZIP/checksum through a feature branch and pull request.
 5. After landing on main, run **Publish verified Safe YOLO release** in Actions.
-   The workflow checks the committed archive and installs all three supported
-   harnesses in an isolated home. Only the dependent publish job receives the
+   The workflow checks the committed archive, installs all three supported
+   harnesses in an isolated home, and checks same-version update idempotence.
+   Different-version upgrade and rollback are covered in the source test suite.
+   Only the dependent publish job receives the
    built-in repository write token. No private-source access token is needed.
 6. Verify the anonymous release download, installer, and global `safe-yolo update`
    journey. Record the public release URL and both source/distribution revisions.
 
 The workflow runs only on explicit dispatch. Publication is restricted to main.
-It creates a new prerelease and never overwrites an existing tag or asset. If a
+It creates a new prerelease and never overwrites an existing tag or asset. A tag
+must either be created at the reviewed commit or already point to that exact
+commit; mismatched tags stop publication. If a
 release fails verification, correct the candidate before dispatch. A published
 release correction gets a new version. Stable-release promotion should be an
 explicitly reviewed workflow change; this initial channel installs beta releases.
