@@ -1,4 +1,4 @@
-"""Publish only when the lightweight release tag matches the reviewed checkout."""
+"""Check the release tag against the reviewed checkout before and after publish."""
 
 import json
 import os

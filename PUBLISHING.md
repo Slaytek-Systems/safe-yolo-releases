@@ -28,5 +28,11 @@ release fails verification, correct the candidate before dispatch. A published
 release correction gets a new version. Stable-release promotion should be an
 explicitly reviewed workflow change; this initial channel installs beta releases.
 
+Tag checks are observations before and after publication, not repository-level
+immutable-tag enforcement. Trusted maintainers must not move release tags,
+including during a running publication. The archive independently records the
+development source revision and content hashes. Workflow concurrency serializes
+this publisher; it cannot prevent a separate authorized writer from changing refs.
+
 Rollback for users is `safe-yolo rollback`; retained local customizations remain
 in effect. Native hook trust/restart is still the user's harness-specific step.
