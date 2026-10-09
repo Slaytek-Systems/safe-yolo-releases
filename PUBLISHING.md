@@ -1,4 +1,16 @@
-# Publish a release
+# Publishing has moved
+
+Use [the source repository's publishing guide](https://github.com/Slaytek-Systems/safe-yolo/blob/main/PUBLISHING.md).
+This repo is a compatibility archive. Its publisher is retired; the remaining
+workflow only checks the retained beta.6 snapshot. No subsequent releases need
+artifact copying or changes here.
+
+The one-time beta.7 bridge release contains the exact ZIP and checksum published
+by `Slaytek-Systems/safe-yolo`. Its embedded source revision is authoritative.
+The bridge tag here identifies this migration record, not a second source build.
+Keep the old URLs available so existing installations can migrate automatically.
+
+## Historical process (superseded)
 
 The development repository stays private. This public repository contains only
 the installer, guide, release verification workflow, and distributable artifacts.

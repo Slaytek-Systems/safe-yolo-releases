@@ -1,0 +1,13 @@
+[branches]
+production = "main"
+task_prefixes = ["docs/", "chore/", "fix/", "feat/"]
+task_base = "main"
+release_prefix = "release/"
+sandbox = "sandbox/safe-yolo-releases"
+experiment_prefix = "experiment/"
+
+[release]
+integration_merge_method = "squash"
+integration_merge_reason = "integrate one reviewed compatibility archive change"
+production_merge_method = "merge"
+production_merge_reason = "preserve a reviewed legacy release boundary"

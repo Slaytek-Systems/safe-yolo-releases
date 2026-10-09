@@ -1,4 +1,14 @@
-# Install Safe YOLO
+# Safe YOLO has moved
+
+**Use https://github.com/Slaytek-Systems/safe-yolo for source, installation,
+issues, and new releases.** Development and publishing now happen in that one repo.
+
+This repository only preserves existing download and update URLs. Existing
+users can run `safe-yolo update`: the final beta.7 bridge package switches future
+updates to the main repository. The old installer below remains compatible
+through that bridge. No ongoing development or release maintenance happens here.
+
+## Historical installation guide
 
 Give your coding agent this instruction:
 
