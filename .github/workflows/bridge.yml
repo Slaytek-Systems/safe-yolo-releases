@@ -1,0 +1,47 @@
+name: Publish final beta.7 compatibility bridge
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: safe-yolo-final-bridge
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - run: python3 bridge.py
+  publish:
+    needs: verify
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - run: python3 bridge.py
+      - name: Publish only the pinned final bridge
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          test "$GH_REPO" = Slaytek-Systems/safe-yolo-releases
+          test "$(gh api repos/Slaytek-Systems/safe-yolo-releases/git/matching-refs/tags/v3.0.0-beta.7 --jq 'length')" = 0
+          gh release create v3.0.0-beta.7 /tmp/safe-yolo-final-bridge/safe-yolo-3.0.0-beta.7.zip /tmp/safe-yolo-final-bridge/safe-yolo-3.0.0-beta.7.zip.sha256 --target "$GITHUB_SHA" --prerelease --title 'Safe YOLO beta.7 — final compatibility bridge' --notes-file BRIDGE.md
+          test "$(gh api repos/Slaytek-Systems/safe-yolo-releases/git/ref/tags/v3.0.0-beta.7 --jq '.object.sha')" = "$GITHUB_SHA"
